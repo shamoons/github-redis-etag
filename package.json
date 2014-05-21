@@ -1,0 +1,29 @@
+{
+  "name": "github-redis-etag",
+  "version": "0.0.1",
+  "description": "This is a wrapper around the github npm package to facilitate using the etag header and saving results in redis",
+  "main": "lib/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/shamoons/github-redis-etag.git"
+  },
+  "keywords": [
+    "github",
+    "cache",
+    "redis",
+    "etag"
+  ],
+  "author": "Shamoon Siddiqui",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/shamoons/github-redis-etag/issues"
+  },
+  "homepage": "https://github.com/shamoons/github-redis-etag",
+  "dependencies": {
+    "github": "~0.1.16",
+    "redis": "~0.10.2"
+  }
+}
