@@ -26,7 +26,8 @@
   "dependencies": {
     "github": "~0.1.16",
     "redis": "~0.10.2",
-    "base91": "0.0.2"
+    "base91": "0.0.2",
+    "lodash": "~2.4.1"
   },
   "devDependencies": {
     "should": "~3.3.1",
