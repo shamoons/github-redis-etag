@@ -20,31 +20,30 @@ class GitHubETag extends GitHubApi
 
     @redisClient = redis.createClient ('6379' || defaults.redis?.port?), ('127.0.0.1' || defaults.redis?.host?)
 
-    # console.log typeof @github
-    # console.log util.inspect(@github, {showHidden: true, depth: 1})
-    githubObjects = ['events', 'gists', 'gitdata', 'issues', 'markdown', 'orgs', 'pullRequests', 'repos', 'search', 'statuses', 'user']
+    githubObjects = ['events', 'gists', 'gitdataf', 'issues', 'markdown', 'orgs', 'pullRequests', 'repos', 'search', 'statuses', 'user']
 
     _.each githubObjects, (object) =>
       @[object] = {}
       _.each _.keys(@github[object]), (key) =>
-        fn = [object]
-        fn = fn[key]
-        console.log fn
+        console.log "#{object}:#{key}"
+        fn = @github[object][key]
 
         @[object][key] = (args, callback) =>
           eTagKey = "GitHubETag::ETAG::#{object}::#{key}::#{JSON.stringify(args)}"
           ghReponseKey = "GitHubETag::RESPONSE::#{object}::#{key}::#{JSON.stringify(args)}"
 
-          # @redisClient.get eTagKey, (err, etag) ->
-          #   return callback err if err
+          @redisClient.get eTagKey, (err, etag) =>
+            return callback err if err
 
-          #   if etag?
-          #     args.headers =
-          #       "If-None-Match": etag
+            if etag?
+              args.headers =
+                "If-None-Match": etag
 
-          #   fn.apply @, args, (err, response) ->
-          #     console.log err
-          #     console.log response
+            console.log fn.toString()
+
+            fn.call @, args, (err, response) ->
+              console.log err
+              console.log response
 
 
 
