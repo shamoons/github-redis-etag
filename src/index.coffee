@@ -27,53 +27,26 @@ class GitHubETag extends GitHubApi
     _.each githubObjects, (object) =>
       @[object] = {}
       _.each _.keys(@github[object]), (key) =>
-        @[object][key] = (args) =>
-          console.log args
+        fn = [object]
+        fn = fn[key]
+        console.log fn
 
-          # console.log "#{object}: #{key}"
+        @[object][key] = (args, callback) =>
+          eTagKey = "GitHubETag::ETAG::#{object}::#{key}::#{JSON.stringify(args)}"
+          ghReponseKey = "GitHubETag::RESPONSE::#{object}::#{key}::#{JSON.stringify(args)}"
 
-    # for key, value of @github
-    #   console.log key
-    #   console.log value
-    #   console.log ''
-      # console.log method
-    #   fn = @[method]
-    #   console.log method
-      # @[method] = (args) =>
-      #   if @authorized()
-      #     fn.apply @, args
-      #   else
-      #     console.log 'denied'
+          # @redisClient.get eTagKey, (err, etag) ->
+          #   return callback err if err
 
-  # repos.get: (msg, callback) =>
-  #     eTagKey = "GitHubETag::ETAG::repos.get::#{JSON.stringify(msg)}"
-  #     @redisClient.get eTagKey, (err, etag) ->
-  #       return callback err if err
+          #   if etag?
+          #     args.headers =
+          #       "If-None-Match": etag
 
-  #       console.log eTagKey
-  #       console.log etag
+          #   fn.apply @, args, (err, response) ->
+          #     console.log err
+          #     console.log response
 
 
-  # authenticate: (params = {})->
-  #   @github.authenticate params
-
-#     @github = new GitHubApi
-#       version: 
-
-# # Load redis
-# redisClient = redis.createClient config.redis_db.port, config.redis_db.host
-
-
-# exports.listRemote = (req, res, next) ->
-#   user = req.user
-
-#   github.authenticate
-#     type: 'oauth'
-#     token: user.github.accessToken
-
-#   ghRepoQuery =
-#     type: 'all'
-#     per_page: 100
 
 #   etagKey = "GH:ETAG:repos.getAll:#{user.github.accessToken}:#{JSON.stringify(ghRepoQuery)}"
 #   ghReponseKey = "GH:RESPONSE:repos.getAll:#{user.github.accessToken}:#{JSON.stringify(ghRepoQuery)}"
