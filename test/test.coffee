@@ -3,14 +3,32 @@ redis = require 'redis'
 should = require 'should'
 
 
-
 describe 'GitHubETag', ->
   redisClient = {}
   beforeEach ->
     redisClient = redis.createClient()
 
-  it 'should connect to redis', ->
-    console.log redisClient
+  it 'should connect to redis', (done) ->
+    redisClient.keys '*', (err, response) ->
+      should.not.exist err
+
+      done()
+
+  it 'should get public information from github', (done) ->
+    done()
+
+  it 'should use an oauth to get information from github', (done) ->
+    # This test does not have an oauth token in here
+    #   If you want this test to succeed, you need to put in
+    #   a token
+    done()
+
+
+  it 'should save data to redis after getting from github', (done) ->
+    done()
+
+
+
 
 
 
