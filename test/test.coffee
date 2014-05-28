@@ -2,6 +2,7 @@ GitHubETag = require '../src/index'
 redis = require 'redis'
 should = require 'should'
 
+GitHubApi = require 'github'
 
 describe 'GitHubETag', ->
   redisClient = {}
@@ -21,13 +22,17 @@ describe 'GitHubETag', ->
         port: '6379'
         host: '127.0.0.1'
 
-    repoQuery =
-      user: 'shamoons'
-      repo: 'github-redis-etag'
+    console.log github
 
-    github.repos.get repoQuery, (err, repo) ->
-      should.not.exist err
-      console.log repo
+    # repoQuery =
+    #   user: 'shamoons'
+    #   repo: 'github-redis-etag'
+
+    # github.repos.get repoQuery, (err, repo) ->
+    #   should.not.exist err
+    #   repo.id.should.eql '20040151'
+
+    #   done()
 
     # console.log new GitHubETag()
     # console.log github.authenticate()

@@ -20,30 +20,41 @@ class GitHubETag extends GitHubApi
 
     @redisClient = redis.createClient ('6379' || defaults.redis?.port?), ('127.0.0.1' || defaults.redis?.host?)
 
-    githubObjects = ['events', 'gists', 'gitdataf', 'issues', 'markdown', 'orgs', 'pullRequests', 'repos', 'search', 'statuses', 'user']
+    githubObjects = ['events', 'gists', 'gitdata', 'issues', 'markdown', 'orgs', 'pullRequests', 'repos', 'search', 'statuses', 'user']
 
-    _.each githubObjects, (object) =>
-      @[object] = {}
-      _.each _.keys(@github[object]), (key) =>
-        console.log "#{object}:#{key}"
-        fn = @github[object][key]
+    # _.each githubObjects, (object) =>
+    #   @object = {}
 
-        @[object][key] = (args, callback) =>
-          eTagKey = "GitHubETag::ETAG::#{object}::#{key}::#{JSON.stringify(args)}"
-          ghReponseKey = "GitHubETag::RESPONSE::#{object}::#{key}::#{JSON.stringify(args)}"
+    #   _.each _.keys(@github[object]), (key) =>
+    #     fn = @github[object][key]
+    #     @object[key] = @github[object][key]
+    #     console.log "#{object}:#{key}"
 
-          @redisClient.get eTagKey, (err, etag) =>
-            return callback err if err
+        # fn.apply @githu
 
-            if etag?
-              args.headers =
-                "If-None-Match": etag
 
-            console.log fn.toString()
+    # _.each githubObjects, (object) =>
+    #   @[object] = {}
+    #   _.each _.keys(@github[object]), (key) =>
+    #     console.log "#{object}:#{key}"
+    #     fn = @github[object][key]
 
-            fn.call @, args, (err, response) ->
-              console.log err
-              console.log response
+    #     @[object][key] = (args, callback) =>
+    #       eTagKey = "GitHubETag::ETAG::#{object}::#{key}::#{JSON.stringify(args)}"
+    #       ghReponseKey = "GitHubETag::RESPONSE::#{object}::#{key}::#{JSON.stringify(args)}"
+
+    #       @redisClient.get eTagKey, (err, etag) =>
+    #         return callback err if err
+
+    #         if etag?
+    #           args.headers =
+    #             "If-None-Match": etag
+
+    #         console.log fn.toString()
+
+    #         fn.call @, args, (err, response) ->
+    #           console.log err
+    #           console.log response
 
 
 
